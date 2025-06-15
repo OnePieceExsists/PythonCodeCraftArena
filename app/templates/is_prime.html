@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block title %}Prime Checker{% endblock %}
+
+{% block content %}
+<h2 class="mb-4">Challenge: Is it Prime?</h2>
+
+<form method="POST" class="mb-3">
+    <div class="mb-3">
+        <label for="number" class="form-label">Enter a number:</label>
+        <input type="number" name="number" id="number" class="form-control" required>
+    </div>
+    <button type="submit" class="btn btn-primary">Check</button>
+</form>
+
+{% if result %}
+    <div class="alert alert-info">{{ result }}</div>
+{% endif %}
+{% endblock %}
