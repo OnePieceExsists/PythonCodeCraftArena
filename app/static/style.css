@@ -1,6 +1,6 @@
 body {
-    font-family: sans-serif;
-    background-color: #f5f5f5;
-    padding: 2rem;
-    color: #333;
+  font-family: 'Segoe UI', sans-serif;
+}
+.list-group-item:hover {
+  background-color: #f8f9fa;
 }

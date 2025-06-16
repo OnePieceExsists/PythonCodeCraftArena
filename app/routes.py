@@ -1,40 +1,46 @@
 from flask import Blueprint, render_template
 from flask import request
-from app.logic.challenges import sum_to_n, is_prime
+from app.logic.challenges import challenges
 from flask import flash, redirect, url_for
 from flask_login import login_user, logout_user, login_required, current_user
 from app.forms import RegistrationForm, LoginForm
 from app.models import User
 from app.models import db
+import json
+from flask import render_template
 
 
 main = Blueprint("main", __name__)
 
 @main.route("/")
 def index():
-    return render_template("index.html")
+    return render_template("index.html", challenges=challenges)
 
-@main.route("/challenge/sum-to-n", methods=["GET", "POST"])
-def challenge_sum_to_n():
+@main.route("/challenge/<int:cid>", methods=["GET", "POST"])
+def run_challenge(cid):
+    from app.logic.challenges import challenges
+
+    entry = challenges.get(cid)
+    if not entry:
+        return "Challenge not found", 404
+
+    title, func, params = entry
     result = None
+
     if request.method == "POST":
         try:
-            n = int(request.form.get("number"))
-            result = sum_to_n(n)
-        except:
-            result = "Invalid input."
-    return render_template("sum_to_n.html", result=result)
+            # Get inputs from form and convert to int/float if possible
+            args = []
+            for p in params:
+                val = request.form.get(p, "")
+                val = float(val) if "." in val else int(val)
+                args.append(val)
+            result = func(*args)
+        except Exception as e:
+            result = f"❗ Error: {e}"
 
-@main.route("/challenge/is-prime", methods=["GET", "POST"])
-def challenge_is_prime():
-    result = None
-    if request.method == "POST":
-        try:
-            n = int(request.form.get("number"))
-            result = f"{n} is {'a prime' if is_prime(n) else 'not a prime'} number."
-        except:
-            result = "Invalid input."
-    return render_template("is_prime.html", result=result)
+    return render_template("challenge_form.html", cid=cid, title=title, params=params, result=result)
+
 
 @main.route("/register", methods=["GET", "POST"])
 def register():
@@ -69,3 +75,12 @@ def logout():
     logout_user()
     flash("You’ve been logged out.", "info")
     return redirect(url_for("main.index"))
+
+@main.route("/quiz/<level>")
+def quiz(level):
+    try:
+        with open(f"data/{level}.json", "r", encoding="utf-8") as f:
+            quizzes = json.load(f)
+    except FileNotFoundError:
+        quizzes = []
+    return render_template("quiz.html", quizzes=quizzes, level=level.capitalize())

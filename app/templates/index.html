@@ -1,17 +1,19 @@
 {% extends "base.html" %}
-{% block title %}Home{% endblock %}
+{% block title %}Arena | Home{% endblock %}
 
 {% block content %}
-<h1 class="mb-3">Welcome to Python(CodeCraft)Arena 🧠⚔️</h1>
+  <div class="text-center">
+    <h1 class="display-4">Welcome to Python(CodeCraft)Arena 🧠⚔️</h1>
+    <p class="lead">Sharpen your Python skills with real interactive challenges.</p>
+  </div>
 
-<p class="lead">Sharpen your Python skills by solving interactive challenges.</p>
+  <div class="list-group mt-5">
+    {% for cid, entry in challenges.items() %}
+      {% set title = entry[0] %}
+      <a href="{{ url_for('main.run_challenge', cid=cid) }}" class="list-group-item list-group-item-action">
+        Challenge {{ cid }}: {{ title }}
+      </a>
+    {% endfor %}
 
-<div class="list-group">
-  <a href="{{ url_for('main.challenge_sum_to_n') }}" class="list-group-item list-group-item-action">
-    Challenge: Sum from 1 to n
-  </a>
-  <a href="{{ url_for('main.challenge_is_prime') }}" class="list-group-item list-group-item-action">
-    Challenge: Prime Number Checker
-  </a>
-</div>
+  </div>
 {% endblock %}

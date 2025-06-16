@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block title %}Challenge {{ cid }}{% endblock %}
+
+{% block content %}
+  <h2>{{ title }}</h2>
+
+  <form method="POST">
+    {% for param in params %}
+      <div class="mb-3">
+        <label class="form-label">{{ param | capitalize }}</label>
+        <input type="text" class="form-control" name="{{ param }}" required>
+      </div>
+    {% endfor %}
+    <button type="submit" class="btn btn-primary">Run Challenge</button>
+  </form>
+
+  {% if result is not none %}
+    <div class="alert alert-info mt-4"><pre>{{ result }}</pre></div>
+  {% endif %}
+{% endblock %}

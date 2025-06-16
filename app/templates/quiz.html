@@ -1,0 +1,15 @@
+<h2>{{ level }} Level Challenges</h2>
+{% for q in quizzes %}
+  <div class="card mb-3">
+    <div class="card-body">
+      <p><strong>Q{{ loop.index }}:</strong> {{ q.question }}</p>
+      <ul>
+        {% for option in q.options %}
+          <li>{{ option }}</li>
+        {% endfor %}
+      </ul>
+      <p><em>Answer Index:</em> {{ q.answer[0] }}</p>
+      <p><em>Explanation:</em> {{ q.explanation }}</p>
+    </div>
+  </div>
+{% endfor %}

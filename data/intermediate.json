@@ -1,0 +1,107 @@
+[
+  {
+    "question": "What is the output of the following code?\n\n```python\nx = [1, 2, 3]\ny = x.copy()\nx.append(4)\nprint(y)\n```",
+    "options": ["[1, 2, 3]", "[1, 2, 3, 4]", "[4]", "None"],
+    "answer": [0],
+    "explanation": "copy() creates a shallow copy, so appending to x doesn’t affect y.",
+    "type": "singleSelect"
+  },
+  {
+    "question": "What is the output of the following code?\n\n```python\nx = [1, 2, 3]\nprint(x[::-1])\n```",
+    "options": ["[1, 2, 3]", "[3, 2, 1]", "[2, 3, 1]", "None"],
+    "answer": [1],
+    "explanation": "The slice [::-1] returns a reversed version of the list.",
+    "type": "singleSelect"
+  },
+  {
+    "question": "Which of the following is NOT a valid Python dictionary method?",
+    "options": ["keys()", "values()", "items()", "append()"],
+    "answer": [3],
+    "explanation": "Dictionaries don’t support append(); that’s a list method.",
+    "type": "singleSelect"
+  },
+  {
+    "question": "What is the output of the following code?\n\n```python\nx = {'a': 1, 'b': 2}\nprint(x.get('c', 0))\n```",
+    "options": ["1", "2", "0", "None"],
+    "answer": [2],
+    "explanation": "get() returns the default value if the key doesn’t exist.",
+    "type": "singleSelect"
+  },
+  {
+    "question": "What is the output of the following code?\n\n```python\nx = [1, 2, 3]\ny = [4, 5]\nprint(x + y)\n```",
+    "options": ["[1, 2, 3, 4, 5]", "[5, 4, 3, 2, 1]", "[1, 2, 3]", "None"],
+    "answer": [0],
+    "explanation": "Using + concatenates both lists.",
+    "type": "singleSelect"
+  },
+  {
+    "question": "What is the output of the following code?\n\n```python\nx = [1, 2, 3]\nprint(sum(x))\n```",
+    "options": ["1", "2", "6", "None"],
+    "answer": [2],
+    "explanation": "sum() returns the sum of list elements: 1+2+3 = 6.",
+    "type": "singleSelect"
+  },
+  {
+    "question": "Which of the following is NOT a valid set operation in Python?",
+    "options": ["union()", "intersection()", "difference()", "append()"],
+    "answer": [3],
+    "explanation": "Sets don’t support append(); you use add() instead.",
+    "type": "singleSelect"
+  },
+  {
+    "question": "What is the output of the following code?\n\n```python\nx = {1, 2, 3}\nx.add(4)\nprint(x)\n```",
+    "options": ["{1, 2, 3}", "{1, 2, 3, 4}", "{4}", "None"],
+    "answer": [1],
+    "explanation": "add(4) inserts 4 into the set x.",
+    "type": "singleSelect"
+  },
+  {
+    "question": "What is the output of the following code?\n\n```python\nx = [1, 2, 3]\nprint(x.index(2))\n```",
+    "options": ["0", "1", "2", "None"],
+    "answer": [1],
+    "explanation": "index(2) returns the index of value 2, which is 1.",
+    "type": "singleSelect"
+  },
+  {
+    "question": "What is the output of the following code?\n\n```python\nx = [1, 2, 3]\nx.remove(2)\nprint(x)\n```",
+    "options": ["[1, 2, 3]", "[1, 3]", "[2, 3]", "None"],
+    "answer": [1],
+    "explanation": "remove(2) deletes the first occurrence of 2 from the list.",
+    "type": "singleSelect"
+  },
+  {
+    "question": "What is the output of the following code?\n\n```python\nx = [1, 2, 3]\nprint(x[1:])\n```",
+    "options": ["[1, 2, 3]", "[2, 3]", "[3]", "None"],
+    "answer": [1],
+    "explanation": "x[1:] returns all elements starting from index 1.",
+    "type": "singleSelect"
+  },
+  {
+    "question": "Which of the following is NOT a valid string method?",
+    "options": ["upper()", "lower()", "split()", "append()"],
+    "answer": [3],
+    "explanation": "append() is for lists, not strings.",
+    "type": "singleSelect"
+  },
+  {
+    "question": "What is the output of the following code?\n\n```python\nx = 'Python'\nprint(x.find('y'))\n```",
+    "options": ["0", "1", "2", "-1"],
+    "answer": [1],
+    "explanation": "find('y') returns index of 'y', which is 1.",
+    "type": "singleSelect"
+  },
+  {
+    "question": "What is the output of the following code?\n\n```python\nx = 'Python'\nprint(x.replace('P', 'J'))\n```",
+    "options": ["Python", "Jython", "Jyhon", "None"],
+    "answer": [1],
+    "explanation": "replace('P','J') changes 'Python' to 'Jython'.",
+    "type": "singleSelect"
+  },
+  {
+    "question": "What is the output of the following code?\n\n```python\nx = 'Python'\nprint(x.startswith('Py'))\n```",
+    "options": ["True", "False", "None", "Error"],
+    "answer": [0],
+    "explanation": "startswith('Py') returns True if the string starts with 'Py'.",
+    "type": "singleSelect"
+  }
+]
