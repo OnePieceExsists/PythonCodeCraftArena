@@ -1,0 +1,118 @@
+{
+  "title": "Pro Quiz",
+  "type": "quiz",
+  "quiz": [
+    {
+      "question": "What is the output of the following code?",
+      "code": "x = [1, 2, 3]\ndef func(y):\n    y[0] = 0\nfunc(x)\nprint(x)",
+      "options": ["[0, 2, 3]", "[1, 2, 3]", "[0, 0, 0]", "None"],
+      "answer": [0],
+      "explanation": "Lists are mutable. The function modifies `x` directly.",
+      "type": "singleSelect"
+    },
+    {
+      "question": "What is the time complexity of inserting an element at the beginning of a Python list?",
+      "code": "",
+      "options": ["O(1)", "O(log n)", "O(n)", "O(n^2)"],
+      "answer": [2],
+      "explanation": "Inserting at index 0 requires shifting all elements, which is O(n).",
+      "type": "singleSelect"
+    },
+    {
+      "question": "What does this code print?",
+      "code": "x = [1, 2, 3]\ny = x\nx = x + [4]\nprint(y)",
+      "options": ["[1, 2, 3]", "[1, 2, 3, 4]", "[]", "None"],
+      "answer": [0],
+      "explanation": "x is reassigned to a new list, y still points to the original.",
+      "type": "singleSelect"
+    },
+    {
+      "question": "What happens here?",
+      "code": "x = (1, 2, 3)\ny = x\nx += (4,)\nprint(y)",
+      "options": ["(1, 2, 3)", "(1, 2, 3, 4)", "()", "None"],
+      "answer": [0],
+      "explanation": "Tuples are immutable. x += (4,) returns a new tuple, y stays the same.",
+      "type": "singleSelect"
+    },
+    {
+      "question": "What does this code print?",
+      "code": "x = [1, 2, 3]\ndef func(y):\n    y = y + [4]\nfunc(x)\nprint(x)",
+      "options": ["[1, 2, 3]", "[1, 2, 3, 4]", "[]", "None"],
+      "answer": [0],
+      "explanation": "y becomes a new list inside the function. x remains unchanged.",
+      "type": "singleSelect"
+    },
+    {
+      "question": "What is the output?",
+      "code": "x = [1, 2, 3]\ndef func(y):\n    y.append(4)\nfunc(x)\nprint(x)",
+      "options": ["[1, 2, 3]", "[1, 2, 3, 4]", "[]", "None"],
+      "answer": [1],
+      "explanation": "append() modifies the list in place.",
+      "type": "singleSelect"
+    },
+    {
+      "question": "What does this function do?",
+      "code": "x = [1, 2, 3]\ndef func(y):\n    y[1] = 0\nfunc(x)\nprint(x)",
+      "options": ["[1, 0, 3]", "[1, 2, 3]", "[0, 0, 0]", "None"],
+      "answer": [0],
+      "explanation": "y is a reference to x. Changing y[1] affects x.",
+      "type": "singleSelect"
+    },
+    {
+      "question": "What is printed?",
+      "code": "x = [1, 2, 3]\ndef func(y):\n    y = y[:]\n    y[0] = 0\nfunc(x)\nprint(x)",
+      "options": ["[0, 2, 3]", "[1, 2, 3]", "[0, 0, 0]", "None"],
+      "answer": [1],
+      "explanation": "y is a copy. The original x remains unchanged.",
+      "type": "singleSelect"
+    },
+    {
+      "question": "What is the output?",
+      "code": "x = [1, 2, 3]\ndef func(y):\n    y = y + [4]\n    return y\nx = func(x)\nprint(x)",
+      "options": ["[1, 2, 3]", "[1, 2, 3, 4]", "[]", "None"],
+      "answer": [1],
+      "explanation": "The new list is returned and assigned to x.",
+      "type": "singleSelect"
+    },
+    {
+      "question": "What does this code output?",
+      "code": "x = [1, 2, 3]\ndef func(y):\n    y = y[:]\n    y.append(4)\n    return y\nx = func(x)\nprint(x)",
+      "options": ["[1, 2, 3]", "[1, 2, 3, 4]", "[]", "None"],
+      "answer": [1],
+      "explanation": "A copy is modified and returned. x is updated.",
+      "type": "singleSelect"
+    },
+    {
+      "question": "What is the output?",
+      "code": "x = [1, 2, 3]\ndef func(y):\n    y = y[:]\n    y[0] = 0\n    return y\nx = func(x)\nprint(x)",
+      "options": ["[0, 2, 3]", "[1, 2, 3]", "[0, 0, 0]", "None"],
+      "answer": [0],
+      "explanation": "Returns a modified copy of the list.",
+      "type": "singleSelect"
+    },
+    {
+      "question": "What is the output?",
+      "code": "x = [1, 2, 3]\ndef func(y):\n    y = y[:]\n    y[0] = 0\n    return y\nz = func(x)\nprint(x, z)",
+      "options": ["[1, 2, 3] [0, 2, 3]", "[0, 2, 3] [0, 2, 3]", "[1, 2, 3] [1, 2, 3]", "None"],
+      "answer": [0],
+      "explanation": "Original is unchanged; copy is modified.",
+      "type": "singleSelect"
+    },
+    {
+      "question": "What does this print?",
+      "code": "x = [1, 2, 3]\ndef func(y):\n    y = y[:]\n    y[0] = 0\n    return y\nz = func(x)\nprint(x)",
+      "options": ["[1, 2, 3]", "[0, 2, 3]", "[0, 0, 0]", "None"],
+      "answer": [0],
+      "explanation": "x is not modified since y was a copy.",
+      "type": "singleSelect"
+    },
+    {
+      "question": "Final one — what’s printed?",
+      "code": "x = [1, 2, 3]\ndef func(y):\n    y = y[:]\n    y[0] = 0\n    return y\nz = func(x)\nprint(z)",
+      "options": ["[1, 2, 3]", "[0, 2, 3]", "[0, 0, 0]", "None"],
+      "answer": [1],
+      "explanation": "Modified copy `[0, 2, 3]` is returned and printed.",
+      "type": "singleSelect"
+    }
+  ]
+}

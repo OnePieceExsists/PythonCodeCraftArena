@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ level }} Challenges{% endblock %}
+
+{% block content %}
+  <h2 class="mb-4">{{ level }} Challenges</h2>
+  <div class="list-group">
+    {% for challenge in challenges %}
+      <a href="{{ url_for('main.show_challenge', level=level.lower(), id=loop.index) }}" class="list-group-item">
+        <strong>#{{ loop.index }}:</strong> {{ challenge['title'] }}
+      </a>
+    {% endfor %}
+    <form action="{{ url_for('main.fetch_challenges', level=level) }}" method="post" class="mb-3">
+      <button type="submit" class="btn btn-warning">🔄 Refresh Challenges</button>
+    </form>
+  </div>
+{% endblock %}

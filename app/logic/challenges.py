@@ -1,4 +1,26 @@
 import random
+import json, os
+
+def load_all_challenges():
+    base = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..', 'data'))
+    print("Resolved data path:", base)
+    
+    levels = ['beginner', 'intermediate', 'advanced', 'pro']
+    challenge_pool = {}
+
+    for level in levels:
+        path = os.path.join(base, f"{level}.json")
+        try:
+            with open(path, 'r', encoding='utf-8') as f:
+                data = json.load(f)
+                print(f"{level}: loaded {len(data)} challenges ✅")
+                challenge_pool[level] = data
+        except Exception as e:
+            print(f"{level}: ❌ error loading - {e}")
+            challenge_pool[level] = []
+
+    return challenge_pool
+
 
 def sum_two_numbers(a, b):
     return f"Sum: {a + b}"

@@ -18,7 +18,9 @@ A Flask-powered web platform where users can browse, solve, and track Python pro
 ## Getting Started
 
 ```bash
+git clone <your-repo-url>
+cd your-project-folder
 python -m venv venv
-source venv/bin/activate  # or .\venv\Scripts\activate on Windows
+source venv/bin/activate  # or venv\Scripts\activate on Windows
 pip install -r requirements.txt
-python run.py
+flask run

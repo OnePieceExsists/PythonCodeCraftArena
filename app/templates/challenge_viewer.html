@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ challenge.title }}{% endblock %}
+
+{% block content %}
+  <h2>{{ challenge.title }}</h2>
+
+  <div class="card mb-4">
+    <div class="card-body">
+      <p>{{ challenge.description }}</p>
+
+      {% if challenge.tags %}
+        <p class="mt-3">
+          <strong>Tags:</strong>
+          {% for tag in challenge.tags %}
+            <span class="badge bg-secondary">{{ tag }}</span>
+          {% endfor %}
+        </p>
+      {% endif %}
+    </div>
+  </div>
+
+  <form method="post" action="#">
+    <div class="mb-3">
+      <label for="userInput" class="form-label">Your Answer:</label>
+      <textarea class="form-control" id="userInput" name="userInput" rows="5" placeholder="Write your solution here..."></textarea>
+    </div>
+    <button type="submit" class="btn btn-success" disabled>Submit (Coming Soon)</button>
+  </form>
+
+  <a href="{{ url_for('main.list_challenges', level=level) }}" class="btn btn-outline-primary mt-3">← Back to {{ level.capitalize() }} Challenges</a>
+{% endblock %}

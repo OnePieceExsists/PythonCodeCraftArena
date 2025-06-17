@@ -1,15 +1,47 @@
-<h2>{{ level }} Level Challenges</h2>
-{% for q in quizzes %}
-  <div class="card mb-3">
-    <div class="card-body">
-      <p><strong>Q{{ loop.index }}:</strong> {{ q.question }}</p>
-      <ul>
-        {% for option in q.options %}
-          <li>{{ option }}</li>
-        {% endfor %}
-      </ul>
-      <p><em>Answer Index:</em> {{ q.answer[0] }}</p>
-      <p><em>Explanation:</em> {{ q.explanation }}</p>
+{% extends "base.html" %}
+
+{% block title %}{{ level }} Quizzes{% endblock %}
+
+{% block content %}
+  <h2 class="mb-4">{{ level }} Quizzes 🧠</h2>
+
+  <form id="quizForm">
+    {% for quiz in quizzes %}
+      {% set qid = loop.index0 %}
+
+      <div class="card mb-4 shadow-sm">
+        <div class="card-header bg-primary text-white fw-bold">
+          Q{{ loop.index }}: {{ quiz.question.split('```')[0] | trim }}
+        </div>
+        {% if quiz.code %}
+          <pre class="bg-light border rounded m-3 p-3"><code>{{ quiz.code }}</code></pre>
+        {% endif %}
+
+        {% if '```python' in quiz.question %}
+          <pre class="bg-light border rounded m-3 p-3">
+<code>{{ quiz.question.split('```python')[1].split('```')[0] | e }}</code>
+          </pre>
+        {% endif %}
+
+        <div class="card-body">
+          {% for option in quiz.options %}
+            <div class="form-check mb-2">
+              <input class="form-check-input"
+                     type="radio"
+                     name="q{{ qid }}"
+                     id="q{{ qid }}_{{ loop.index0 }}"
+                     value="{{ option }}">
+              <label class="form-check-label" for="q{{ qid }}_{{ loop.index0 }}">
+                {{ option }}
+              </label>
+            </div>
+          {% endfor %}
+        </div>
+      </div>
+    {% endfor %}
+
+    <div class="text-center my-4">
+      <button type="submit" class="btn btn-success px-4 py-2">🎯 Submit All Answers</button>
     </div>
-  </div>
-{% endfor %}
+  </form>
+{% endblock %}
