@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h2>🔥 Your Daily Challenge</h2>
+  <h3>{{ challenge.title }}</h3>
+  <p>{{ challenge.description }}</p>
+  
+  <form method="POST" action="#">
+    <textarea name="user_code" rows="10" cols="80" placeholder="Write your solution here..."></textarea>
+    <br>
+    <button class="btn btn-success">Submit</button>
+  </form>
+
+  <hr>
+  <p><strong>Category:</strong> {{ challenge.category }}</p>
+  <p><strong>Difficulty:</strong> {{ challenge.difficulty }}</p>
+  <button class="btn btn-info" onclick="alert('{{ challenge.hints[0] }}')">💡 Hint</button>
+{% endblock %}

@@ -3,8 +3,58 @@
 
 {% block content %}
   <div class="container">
-    <h2 class="mb-4">🧪 Challenge {{ challenge_id }}</h2>
-    <pre class="bg-light p-3 border rounded">{{ output }}</pre>
+    <h2 class="mb-4">🧪 Challenge {{ challenge.title }}</h2>
+    <p>{{ challenge.description }}</p>
+
+    <form method="POST">
+      <textarea name="user_code" rows="10" cols="80" placeholder="Type your solution here..."></textarea><br>
+      <button class="btn btn-success">Submit</button>
+    </form>
+
+    {% if progress %}
+      <hr>
+      <h5>Your Progress:</h5>
+      <p><strong>Status:</strong> {{ progress.status }}</p>
+      <p><strong>Attempts:</strong> {{ progress.attempts }}</p>
+      <p><strong>Last updated:</strong> {{ progress.timestamp }}</p>
+    {% endif %}
+
+    {% if output %}
+      <hr>
+      <pre class="bg-light p-3 border rounded">{{ output }}</pre>
+    {% endif %}
+
+    <hr>
+    <button class="btn btn-outline-info mt-3" onclick="runCode()">▶️ Run Code (Client-Side)</button>
+
+    <pre id="pyodide-output" class="bg-dark text-light p-3 mt-2 rounded">Output will appear here...</pre>
+
+    <script>
+      let pyodideReady = false;
+      let pyodide;
+
+      async function loadPyodideOnce() {
+        if (!pyodideReady) {
+          pyodide = await loadPyodide();
+          pyodideReady = true;
+        }
+      }
+
+      async function runCode() {
+        await loadPyodideOnce();
+        const code = document.querySelector('textarea[name="user_code"]').value;
+        const outputEl = document.getElementById("pyodide-output");
+
+        try {
+          const result = await pyodide.runPythonAsync(code);
+          outputEl.textContent = result !== undefined ? result : "✅ No output.";
+        } catch (err) {
+          outputEl.textContent = "❌ Error: " + err.message;
+        }
+      }
+    </script>
+
+
     <a href="/" class="btn btn-outline-primary mt-3">← Back to Arena</a>
   </div>
 {% endblock %}

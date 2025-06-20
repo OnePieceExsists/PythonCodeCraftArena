@@ -21,6 +21,6 @@ A Flask-powered web platform where users can browse, solve, and track Python pro
 git clone <your-repo-url>
 cd your-project-folder
 python -m venv venv
-source venv/bin/activate  # or venv\Scripts\activate on Windows
 pip install -r requirements.txt
+source venv/bin/activate  # or .venv\Scripts\activate on Windows
 flask run

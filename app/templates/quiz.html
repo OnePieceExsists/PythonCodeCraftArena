@@ -5,7 +5,7 @@
 {% block content %}
   <h2 class="mb-4">{{ level }} Quizzes 🧠</h2>
 
-  <form id="quizForm">
+  <form method=""POST">
     {% for quiz in quizzes %}
       {% set qid = loop.index0 %}
 

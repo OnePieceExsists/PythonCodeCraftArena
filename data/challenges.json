@@ -1,0 +1,173 @@
+[
+  {
+    "id": "recursion_001",
+    "title": "Fibonacci Finder",
+    "description": "Write a recursive function that returns the nth Fibonacci number.",
+    "category": "Recursion",
+    "difficulty": "Medium",
+    "solution": "def fibonacci(n):\n    if n <= 1:\n        return n\n    return fibonacci(n-1) + fibonacci(n-2)",
+    "hints": ["Use two base cases", "Recall fib(0)=0, fib(1)=1"]
+  },
+  {
+    "id": "recursion_002",
+    "title": "Factorial Calculator",
+    "description": "Use recursion to calculate the factorial of a given number.",
+    "category": "Recursion",
+    "difficulty": "Easy",
+    "solution": "def factorial(n):\n    if n <= 1:\n        return 1\n    return n * factorial(n - 1)",
+    "hints": ["Remember that 0! = 1", "Use n * factorial(n-1)"]
+  },
+  {
+    "id": "recursion_003",
+    "title": "Tower of Hanoi",
+    "description": "Write a recursive function to solve the Tower of Hanoi puzzle for n disks.",
+    "category": "Recursion",
+    "difficulty": "Hard",
+    "solution": "def hanoi(n, source, helper, target):\n    if n == 1:\n        print(f\"Move disk from {source} to {target}\")\n    else:\n        hanoi(n-1, source, target, helper)\n        print(f\"Move disk from {source} to {target}\")\n        hanoi(n-1, helper, source, target)",
+    "hints": ["Move n−1 disks to helper first", "Then move largest disk", "Finish with moving n−1 disks to target"]
+  },
+  {
+  "id": "regex_001",
+  "title": "Extract All Emails",
+  "description": "Write a function that extracts all valid email addresses from a given string.",
+  "category": "Regex & Parsing",
+  "difficulty": "Medium",
+  "solution": "...",
+  "hints": ["Use re.findall", "Valid email regex includes @ and domain."]
+  },
+  {
+  "id": "algo_001",
+  "title": "Find Prime Numbers",
+  "description": "Write a function that returns all prime numbers up to a given number n.",
+  "category": "Algorithms",
+  "difficulty": "Medium",
+  "solution": "def primes_up_to(n):\n    primes = []\n    for num in range(2, n+1):\n        if all(num % d != 0 for d in range(2, int(num**0.5)+1)):\n            primes.append(num)\n    return primes",
+  "hints": ["Loop from 2 to n", "Use range and all() for primality"]
+},
+{
+  "id": "algo_002",
+  "title": "GCD Calculator",
+  "description": "Write a function that computes the greatest common divisor (GCD) of two numbers.",
+  "category": "Algorithms",
+  "difficulty": "Easy",
+  "solution": "def gcd(a, b):\n    while b:\n        a, b = b, a % b\n    return a",
+  "hints": ["Use Euclid’s algorithm", "Loop until b == 0"]
+},
+{
+  "id": "algo_003",
+  "title": "Binary Search",
+  "description": "Implement binary search to find the index of a number in a sorted list. Return -1 if not found.",
+  "category": "Algorithms",
+  "difficulty": "Medium",
+  "solution": "def binary_search(arr, target):\n    low, high = 0, len(arr) - 1\n    while low <= high:\n        mid = (low + high) // 2\n        if arr[mid] == target:\n            return mid\n        elif arr[mid] < target:\n            low = mid + 1\n        else:\n            high = mid - 1\n    return -1",
+  "hints": ["Use while loop", "Adjust low/high based on mid"]
+},
+{
+  "id": "flask_001",
+  "title": "Blueprint Debugger",
+  "description": "Explain what a Flask Blueprint is used for and demonstrate how you’d split your routes into one.",
+  "category": "Flask Internals",
+  "difficulty": "Easy",
+  "solution": "A Blueprint is a way to structure your app into components. Create one with:\n\nmain = Blueprint('main', __name__)\n\nDefine routes under it and register in app factory: app.register_blueprint(main)",
+  "hints": ["Used for modular routing", "Registered in app factory"]
+},
+{
+  "id": "flask_002",
+  "title": "Request Context Inspector",
+  "description": "Write a route that prints the current request’s method, path, and any GET query parameters.",
+  "category": "Flask Internals",
+  "difficulty": "Medium",
+  "solution": "@main.route('/debug')\ndef debug():\n    return f\"Method: {request.method}, Path: {request.path}, Args: {request.args}\"",
+  "hints": ["Use request.method, request.path", "request.args returns a MultiDict"]
+},
+{
+  "id": "flask_003",
+  "title": "Session Tracker",
+  "description": "Use Flask sessions to count how many times a user has visited a particular route.",
+  "category": "Flask Internals",
+  "difficulty": "Medium",
+  "solution": "@main.route('/tracker')\ndef tracker():\n    session['visits'] = session.get('visits', 0) + 1\n    return f\"You've visited this page {session['visits']} times.\"",
+  "hints": ["Use session.get(...)", "Increment on each visit"]
+},
+{
+  "id": "debug_001",
+  "title": "Broken Sum",
+  "description": "Fix the following code that’s supposed to sum two numbers:\n\ndef add(a, b):\n    return a - b",
+  "category": "Debug the Bug",
+  "difficulty": "Easy",
+  "solution": "def add(a, b):\n    return a + b",
+  "hints": ["Check the operator", "Addition vs subtraction"]
+},
+{
+  "id": "debug_002",
+  "title": "Off-by-One Loop",
+  "description": "Fix this code so it prints numbers 1 through 5:\n\nfor i in range(1, 6):\n    print(i)\n# Oops, was originally range(1,5)",
+  "category": "Debug the Bug",
+  "difficulty": "Easy",
+  "solution": "for i in range(1, 6):\n    print(i)",
+  "hints": ["range(1, 5) goes up to 4", "Adjust end value"]
+},
+{
+  "id": "debug_003",
+  "title": "Type Confusion",
+  "description": "Why does this fail?\n\nn = input(\"Enter a number: \")\nprint(n * 2)",
+  "category": "Debug the Bug",
+  "difficulty": "Medium",
+  "solution": "n = int(input(\"Enter a number: \"))\nprint(n * 2)",
+  "hints": ["input() returns string", "Convert input to int"]
+},
+{
+  "id": "regex_002",
+  "title": "Extract Digits",
+  "description": "Write a function to extract all digits from a given string.",
+  "category": "Regex & Parsing",
+  "difficulty": "Easy",
+  "solution": "import re\ndef extract_digits(s):\n    return re.findall(r'\\d', s)",
+  "hints": ["Use \\d for digits", "Use re.findall"]
+},
+{
+  "id": "regex_003",
+  "title": "Hashtag Detector",
+  "description": "Find all hashtags in a tweet-like string (words starting with #).",
+  "category": "Regex & Parsing",
+  "difficulty": "Medium",
+  "solution": "import re\ndef find_hashtags(text):\n    return re.findall(r'#\\w+', text)",
+  "hints": ["Use #\\w+", "re.findall again"]
+},
+{
+  "id": "regex_004",
+  "title": "Email Validator",
+  "description": "Write a regex that checks if a string looks like a valid email address.",
+  "category": "Regex & Parsing",
+  "difficulty": "Hard",
+  "solution": "import re\npattern = r'^[\\w\\.-]+@[\\w\\.-]+\\.\\w{2,}$'",
+  "hints": ["Use ^ and $ anchors", "Need @ and a domain"]
+},
+{
+  "id": "ds_001",
+  "title": "Unique Elements",
+  "description": "Write a function that removes duplicates from a list.",
+  "category": "Data Structures",
+  "difficulty": "Easy",
+  "solution": "def dedupe(lst):\n    return list(set(lst))",
+  "hints": ["Use set to remove duplicates", "Wrap back in list()"]
+},
+{
+  "id": "ds_002",
+  "title": "Stack Simulator",
+  "description": "Simulate a basic stack (push, pop) using a Python list.",
+  "category": "Data Structures",
+  "difficulty": "Medium",
+  "solution": "stack = []\nstack.append(1)\nstack.append(2)\nprint(stack.pop())",
+  "hints": ["Use list.append()", "Use list.pop()"]
+},
+{
+  "id": "ds_003",
+  "title": "Word Frequency Counter",
+  "description": "Count how often each word appears in a string.",
+  "category": "Data Structures",
+  "difficulty": "Medium",
+  "solution": "from collections import Counter\ndef word_freq(s):\n    return Counter(s.split())",
+  "hints": ["Use split()", "Try collections.Counter"]
+}
+]

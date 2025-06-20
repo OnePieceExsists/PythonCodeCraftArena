@@ -4,11 +4,13 @@ from app.logic.challenges import challenges, load_all_challenges
 from flask import flash, redirect, url_for
 from flask_login import login_user, logout_user, login_required, current_user
 from app.forms import RegistrationForm, LoginForm
-from app.models import User
+from app.models import User, QuizAttempt
 from app.models import db
+from app.models import UserChallengeProgress
 import json, os
 import random
-
+from datetime import date
+from flask import session
 
 main = Blueprint("main", __name__)
 
@@ -113,18 +115,76 @@ def list_challenges(level):
 
     return render_template('challenge_list.html', level=level.capitalize(), challenges=challenges)
 
-@main.route('/quiz/<level>')
+@main.route('/quiz/<level>', methods=["GET", "POST"])
 def quiz_view(level):
     path = os.path.join(os.path.dirname(__file__), '..', 'data', f'{level.lower()}_quiz.json')
     try:
         with open(path, 'r', encoding='utf-8') as f:
             data = json.load(f)
-            quizzes = data["quiz"] if "quiz" in data else data  # support both styles
+            quizzes = data["quiz"] if "quiz" in data else data
     except Exception as e:
         print(f"Error loading quiz data: {e}")
         quizzes = []
 
+    if request.method == "POST":
+        score = 0
+        results = []
+
+        print("✅ POST received and processed")
+
+        for q in quizzes:
+            user_answer = request.form.get(str(q['id']), '')
+            correct = user_answer.strip().lower() == q['answer'].strip().lower()
+            if correct:
+                score += 1
+
+            results.append({
+                "question": q['question'],
+                "your_answer": user_answer or "—",
+                "correct_answer": q['answer'],
+                "is_correct": correct
+            })
+
+        percentage = round(score / len(quizzes) * 100, 2)
+
+        user_id = session.get("user_id")
+        if not user_id:
+            import uuid
+            user_id = str(uuid.uuid4())
+            session["user_id"] = user_id
+
+        attempt = QuizAttempt(
+            user_id=user_id,
+            level=level.lower(),
+            score=score,
+            total=len(quizzes),
+            percentage=percentage
+        )
+        db.session.add(attempt)
+        db.session.commit()
+
+
+        # Optional: Store result in database (QuizAttempt table)
+
+        return render_template(
+            'quiz_results.html',
+            level=level.capitalize(),
+            results=results,
+            score=score,
+            total=len(quizzes),
+            percentage=percentage
+        )
+
     return render_template('quiz.html', quizzes=quizzes, level=level.capitalize())
+
+@main.route('/progress')
+def view_progress():
+    user_id = session.get("user_id")
+    if not user_id:
+        return redirect(url_for('main.index'))
+
+    attempts = QuizAttempt.query.filter_by(user_id=user_id).order_by(QuizAttempt.timestamp.desc()).all()
+    return render_template("progress.html", attempts=attempts)
 
 @main.route('/challenge/<level>/<int:id>')
 def show_challenge(level, id):
@@ -151,6 +211,77 @@ def fetch_challenges(level):
         print(f"❌ Failed to write file: {e}")
 
     return redirect(url_for('main.list_challenges', level=level))
+
+@main.route('/category/<category_name>')
+def view_category(category_name):
+    challenges = load_challenges_by_category(category_name)
+    return render_template('category.html', challenges=challenges, category=category_name)
+
+@main.route('/challenge/daily')
+def daily_challenge():
+    today_key = f"daily_{date.today().isoformat()}"
+
+    if today_key not in session:
+        with open("data/challenges.json") as f:
+            challenges = json.load(f)
+        challenge = random.choice(challenges)
+        session[today_key] = challenge["id"]
+    else:
+        with open("data/challenges.json") as f:
+            challenges = json.load(f)
+        challenge = next((c for c in challenges if c["id"] == session[today_key]), None)
+
+    return render_template("daily_challenge.html", challenge=challenge)
+
+@main.route('/challenge/<challenge_id>', methods=['GET', 'POST'])
+def challenge_view(challenge_id):
+    # Fake or session-based user ID
+    user_id = session.get("user_id")
+    if not user_id:
+        import uuid
+        user_id = str(uuid.uuid4())
+        session["user_id"] = user_id
+
+    # Load challenge from JSON
+    with open('data/challenges.json') as f:
+        challenges = json.load(f)
+    challenge = next((c for c in challenges if c["id"] == challenge_id), None)
+    if not challenge:
+        return "Challenge not found", 404
+
+    # Track progress
+    progress = UserChallengeProgress.query.filter_by(user_id=user_id, challenge_id=challenge_id).first()
+    if request.method == "POST":
+        user_code = request.form["user_code"]
+        # Just mark as complete for now (later you can evaluate correctness)
+        if not progress:
+            progress = UserChallengeProgress(user_id=user_id, challenge_id=challenge_id, status="completed", attempts=1)
+        else:
+            progress.status = "completed"
+            progress.attempts += 1
+        db.session.add(progress)
+        db.session.commit()
+
+    output = None  # Initialize output before usage
+
+    return render_template("challenge.html", challenge=challenge, challenge_id=challenge_id, progress=progress, output=output)
+
+def load_challenges_by_category(category_name):
+    path = os.path.join(os.path.dirname(__file__), '..', 'data', 'challenges.json')
+    with open(path, 'r', encoding='utf-8') as f:
+        all_challenges = json.load(f)
+    return [ch for ch in all_challenges if ch.get("category", "").lower() == category_name.lower()]
+
+def log_progress(user_id, challenge_id, status, score=None):
+    progress = UserChallengeProgress.query.filter_by(user_id=user_id, challenge_id=challenge_id).first()
+    if not progress:
+        progress = UserChallengeProgress(user_id=user_id, challenge_id=challenge_id, status=status, score=score, attempts=1)
+    else:
+        progress.status = status
+        progress.score = score
+        progress.attempts += 1
+    db.session.add(progress)
+    db.session.commit()
 
 def generate_challenges_by_level(level):
     level = level.lower()  # Normalize user input like 'Beginner' to 'beginner'

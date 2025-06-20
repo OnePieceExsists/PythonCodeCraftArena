@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+{% block title %}{{ level }} Quiz Results{% endblock %}
+
+{% block content %}
+<div class="container">
+  <h2 class="mb-4">{{ level }} Quiz Results</h2>
+
+  <table class="table table-bordered table-hover">
+    <thead class="table-dark">
+      <tr>
+        <th>Question</th>
+        <th>Your Answer</th>
+        <th>Correct Answer</th>
+        <th>✅</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for r in results %}
+      <tr class="{% if r.is_correct %}table-success{% else %}table-danger{% endif %}">
+        <td>{{ r.question }}</td>
+        <td>{{ r.your_answer }}</td>
+        <td>{{ r.correct_answer }}</td>
+        <td class="text-center">{{ '✔' if r.is_correct else '✘' }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+  <div class="alert alert-info mt-4">
+    <strong>Score:</strong> {{ score }} / {{ total }} &nbsp; ({{ percentage }}%)
+    </div>
+
+    <div class="mt-5">
+    <h5>🧠 Visual Score Breakdown</h5>
+    <canvas id="resultChart" width="300" height="300"></canvas>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <script>
+    const ctx = document.getElementById('resultChart');
+    new Chart(ctx, {
+        type: 'doughnut',
+        data: {
+        labels: ['Correct', 'Incorrect'],
+        datasets: [{
+            data: [{{ score }}, {{ total - score }}],
+            backgroundColor: ['#28a745', '#dc3545'],
+            borderWidth: 1
+        }]
+        },
+        options: {
+        responsive: true,
+        plugins: {
+            legend: { position: 'bottom' }
+        }
+        }
+    });
+    </script>
+
+
+  <a class="btn btn-outline-primary" href="{{ url_for('main.quiz_view', level=level.lower()) }}">🔁 Try Again</a>
+  <a class="btn btn-secondary ms-2" href="{{ url_for('main.view_progress') }}">📈 View Progress</a>
+</div>
+{% endblock %}

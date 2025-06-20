@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+{% block title %}Your Quiz Progress{% endblock %}
+
+{% block content %}
+  <h2 class="mb-4">📊 Quiz Progress</h2>
+
+  {% if attempts %}
+    <canvas id="progressChart" height="80"></canvas>
+    <table class="table table-striped mt-4">
+      <thead>
+        <tr>
+          <th>Date</th>
+          <th>Level</th>
+          <th>Score</th>
+          <th>Percentage</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for a in attempts %}
+          <tr>
+            <td>{{ a.timestamp.strftime('%Y-%m-%d %H:%M') }}</td>
+            <td>{{ a.level.capitalize() }}</td>
+            <td>{{ a.score }} / {{ a.total }}</td>
+            <td>{{ a.percentage }}%</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        const ctx = document.getElementById('progressChart');
+        new Chart(ctx, {
+            type: 'line',
+            data: {
+            labels: [{% for a in attempts %}"{{ a.timestamp.strftime('%m/%d') }}"{% if not loop.last %}, {% endif %}{% endfor %}],
+            datasets: [{
+                label: 'Score %',
+                data: [{% for a in attempts %}{{ a.percentage }}{% if not loop.last %}, {% endif %}{% endfor %}],
+                borderColor: '#007bff',
+                backgroundColor: 'rgba(0,123,255,0.1)',
+                tension: 0.3,
+                fill: true
+            }]
+            },
+            options: {
+            responsive: true,
+            plugins: { legend: { display: false } },
+            scales: {
+                y: { beginAtZero: true, max: 100 },
+                x: { title: { display: true, text: 'Attempt Date' } }
+            }
+            }
+        });  // ← this was missing before
+        </script>
+
+
+  {% else %}
+    <div class="alert alert-info">No quiz attempts yet—get started!</div>
+  {% endif %}
+{% endblock %}
