@@ -20,7 +20,18 @@ A Flask-powered web platform where users can browse, solve, and track Python pro
 ```bash
 git clone <your-repo-url>
 cd your-project-folder
+
+in project root open new folder named instance
+in the folder instance open new file named config.py
+in it paste the following code:
+    SQLALCHEMY_DATABASE_URI = "sqlite:///arena.db"
+
+    DEBUG = True
+    SECRET_KEY = 'your-secret-key'
+
 python -m venv venv
+.\venv\Scripts\Activate.ps1
+
 pip install -r requirements.txt
-source venv/bin/activate  # or .venv\Scripts\activate on Windows
-flask run
+
+python run.py
